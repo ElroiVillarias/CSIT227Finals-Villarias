@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLOutput;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,13 +111,14 @@ public class App extends JFrame{
                 }
                 int load = Integer.parseInt(tfLoad.getText());
                 int cnt = 1;
+                DecimalFormat df = new DecimalFormat("0.00");
                 for(Person p : persons){
                     if(load == cnt){
                         tfName.setText(p.name);
                         tfAge.setText(String.valueOf(p.age));
                         if(p instanceof Employee){
                             tfMonths.setText(String.valueOf(((Employee) p).months_worked));
-                            tfSalary.setText(String.valueOf(((Employee) p).salary));
+                            tfSalary.setText(df.format(String.valueOf(((Employee) p).salary)));
                         }
                         break;
                     }
@@ -131,6 +133,37 @@ public class App extends JFrame{
                 for(Person p : persons){
                     System.out.println(p);
                 }
+            }
+        });
+
+        btnReward.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    Integer.parseInt(tfLoad.getText());
+                }catch (Exception x){
+                    JOptionPane.showMessageDialog(pnlMain, "The Load input is not valid.");
+                    clear();
+                }
+                int load = Integer.parseInt(tfLoad.getText());
+                int cnt = 1;
+                double bonus = 0;
+                DecimalFormat df = new DecimalFormat("0.00");
+                for(Person p : persons){
+                    if(load == cnt){
+                        if(p instanceof Employee){
+                            tfName.setText(p.name);
+                            tfAge.setText(String.valueOf(p.age));
+                            tfMonths.setText(String.valueOf(((Employee) p).months_worked));
+                            bonus = ((Employee) p).thirteenthMonth(((Employee) p).salary, ((Employee) p).months_worked);
+                            tfSalary.setText(df.format(bonus));
+                            JOptionPane.showMessageDialog(pnlMain, "The thirteenth month of the number " + load + " employee " + p.name);
+                        }
+                        break;
+                    }
+                    cnt++;
+                }
+
             }
         });
     }
@@ -149,10 +182,6 @@ public class App extends JFrame{
         tfMonths.setText("");
         tfSalary.setText("");
         tfLoad.setText("");
-    }
-
-    static void giveReward(int n) {
-
     }
 
 }

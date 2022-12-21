@@ -9,7 +9,7 @@ public abstract class Employee extends Person {
     }
 
     public double thirteenthMonth(double salary, int months_worked) {
-        double total = salary / (12 / months_worked);
+        double total = salary / (12 / (double) months_worked);
         return total;
     }
 
