@@ -126,13 +126,15 @@ public class App extends JFrame {
                 int load = Integer.parseInt(tfLoad.getText());
                 int cnt = 1;
                 DecimalFormat df = new DecimalFormat("0.00");
+                double reset;
                 for (Person p : persons) {
                     if (load == cnt) {
                         tfName.setText(p.name);
                         tfAge.setText(String.valueOf(p.age));
                         if (p instanceof Employee) {
                             tfMonths.setText(String.valueOf(((Employee) p).months_worked));
-                            tfSalary.setText(df.format(String.valueOf(((Employee) p).salary)));
+                            reset = ((Employee) p).salary;
+                            tfSalary.setText(df.format(reset));
                         }
                         break;
                     }
