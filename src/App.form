@@ -261,7 +261,7 @@
     </children>
   </grid>
   <buttonGroups>
-    <group name="persons">
+    <group name="Jobs">
       <member id="52efa"/>
       <member id="52efa"/>
       <member id="3cff8"/>

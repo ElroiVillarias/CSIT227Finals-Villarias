@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class App extends JFrame{
+public class App extends JFrame {
     private JPanel pnlMain;
     private JRadioButton rbCustomer;
     private JRadioButton rbClerk;
@@ -24,11 +24,13 @@ public class App extends JFrame{
     private JButton btnSavePerson;
     private JButton btnLoadPerson;
     private JButton btnReward;
+    private ButtonGroup Jobs;
 
     private final List<JRadioButton> Job;
     private List<Person> persons;
 
     public App() {
+        this.setTitle("Some Company System");
         //for peps
         persons = new ArrayList<>();
 
@@ -43,38 +45,50 @@ public class App extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int cnt = 0;
-                try{
-                    Integer.parseInt(tfAge.getText());
-                    cnt++;
-                    Integer.parseInt(tfMonths.getText());
-                    cnt++;
-                    Double.parseDouble(tfSalary.getText());
-                } catch (Exception x) {
-                    if(cnt == 0){
-                        JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
-                    }else if(cnt == 1) {
-                        JOptionPane.showMessageDialog(pnlMain, "The inputted months of work is not valid.");
-                    }else{
-                        JOptionPane.showMessageDialog(pnlMain, "The inputted salary is not valid.");
+                for (JRadioButton rb : Job) {
+                    if (rb.isSelected()) {
+                        if(rb.equals(rbCustomer)){
+                            try {
+                                Integer.parseInt(tfAge.getText());
+                            } catch (Exception x) {
+                                JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
+                                clear();
+                            }
+                        }else{
+                            try {
+                                Integer.parseInt(tfAge.getText());
+                                cnt++;
+                                Integer.parseInt(tfMonths.getText());
+                                cnt++;
+                                Double.parseDouble(tfSalary.getText());
+                            } catch (Exception x) {
+                                if (cnt == 0) {
+                                    JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
+                                } else if (cnt == 1) {
+                                    JOptionPane.showMessageDialog(pnlMain, "The inputted months of work is not valid.");
+                                } else {
+                                    JOptionPane.showMessageDialog(pnlMain, "The inputted salary is not valid.");
+                                }
+                                clear();
+                            }
+                        }
                     }
-                    clear();
                 }
-
 
                 String name = tfName.getText();
                 int age = Integer.parseInt(tfAge.getText());
                 String occ = "Job";
-                for(JRadioButton rb : Job) {
-                    if(rb.isSelected()) {
-                        if(rb.equals(rbCustomer)){
+                for (JRadioButton rb : Job) {
+                    if (rb.isSelected()) {
+                        if (rb.equals(rbCustomer)) {
                             occ = "Customer";
                             persons.add(new Person.Customer(name, age));
-                        } else if(rb.equals(rbClerk)) {
+                        } else if (rb.equals(rbClerk)) {
                             int months = Integer.parseInt(tfMonths.getText());
                             double salary = Double.parseDouble(tfSalary.getText());
                             occ = "Clerk";
                             persons.add(new Employee.Clerk(name, age, months, salary));
-                        } else if(rb.equals(rbManager)) {
+                        } else if (rb.equals(rbManager)) {
                             int months = Integer.parseInt(tfMonths.getText());
                             double salary = Double.parseDouble(tfSalary.getText());
                             occ = "Manager";
@@ -84,7 +98,7 @@ public class App extends JFrame{
                 }
 
                 int counter = 0;
-                for(Person p : persons){
+                for (Person p : persons) {
                     counter++;
                 }
 
@@ -103,20 +117,20 @@ public class App extends JFrame{
         btnLoad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
+                try {
                     Integer.parseInt(tfLoad.getText());
-                }catch (Exception x){
+                } catch (Exception x) {
                     JOptionPane.showMessageDialog(pnlMain, "The Load input is not valid.");
                     clear();
                 }
                 int load = Integer.parseInt(tfLoad.getText());
                 int cnt = 1;
                 DecimalFormat df = new DecimalFormat("0.00");
-                for(Person p : persons){
-                    if(load == cnt){
+                for (Person p : persons) {
+                    if (load == cnt) {
                         tfName.setText(p.name);
                         tfAge.setText(String.valueOf(p.age));
-                        if(p instanceof Employee){
+                        if (p instanceof Employee) {
                             tfMonths.setText(String.valueOf(((Employee) p).months_worked));
                             tfSalary.setText(df.format(String.valueOf(((Employee) p).salary)));
                         }
@@ -130,7 +144,7 @@ public class App extends JFrame{
         btnSayHi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(Person p : persons){
+                for (Person p : persons) {
                     System.out.println(p);
                 }
             }
@@ -139,9 +153,9 @@ public class App extends JFrame{
         btnReward.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
+                try {
                     Integer.parseInt(tfLoad.getText());
-                }catch (Exception x){
+                } catch (Exception x) {
                     JOptionPane.showMessageDialog(pnlMain, "The Load input is not valid.");
                     clear();
                 }
@@ -149,9 +163,9 @@ public class App extends JFrame{
                 int cnt = 1;
                 double bonus = 0;
                 DecimalFormat df = new DecimalFormat("0.00");
-                for(Person p : persons){
-                    if(load == cnt){
-                        if(p instanceof Employee){
+                for (Person p : persons) {
+                    if (load == cnt) {
+                        if (p instanceof Employee) {
                             tfName.setText(p.name);
                             tfAge.setText(String.valueOf(p.age));
                             tfMonths.setText(String.valueOf(((Employee) p).months_worked));
@@ -166,6 +180,31 @@ public class App extends JFrame{
 
             }
         });
+
+        rbCustomer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tfMonths.setEnabled(false);
+                tfSalary.setEnabled(false);
+            }
+        });
+
+        rbClerk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tfMonths.setEnabled(true);
+                tfSalary.setEnabled(true);
+            }
+        });
+
+        rbManager.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tfMonths.setEnabled(true);
+                tfSalary.setEnabled(true);
+            }
+        });
+
     }
 
     public static void main(String[] args) {
