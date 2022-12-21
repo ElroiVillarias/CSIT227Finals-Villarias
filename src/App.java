@@ -44,27 +44,45 @@ public class App extends JFrame {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String test = tfName.getText();
+                boolean stat;
                 int cnt = 0;
                 for (JRadioButton rb : Job) {
                     if (rb.isSelected()) {
                         if(rb.equals(rbCustomer)){
                             try {
+                                stat = checkName(test);
+                                if(!stat){
+                                    throw new Exception();
+                                }
+                                cnt++;
                                 Integer.parseInt(tfAge.getText());
                             } catch (Exception x) {
-                                JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
+                                if(cnt == 0){
+                                    JOptionPane.showMessageDialog(pnlMain, "The inputted name is not valid.");
+                                }else {
+                                    JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
+                                }
                                 clear();
                             }
                         }else{
                             try {
+                                stat = checkName(test);
+                                if(!stat){
+                                    throw new Exception();
+                                }
+                                cnt++;
                                 Integer.parseInt(tfAge.getText());
                                 cnt++;
                                 Integer.parseInt(tfMonths.getText());
                                 cnt++;
                                 Double.parseDouble(tfSalary.getText());
                             } catch (Exception x) {
-                                if (cnt == 0) {
-                                    JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
+                                if(cnt == 0){
+                                    JOptionPane.showMessageDialog(pnlMain, "The inputted name is not valid.");
                                 } else if (cnt == 1) {
+                                    JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
+                                } else if (cnt == 2) {
                                     JOptionPane.showMessageDialog(pnlMain, "The inputted months of work is not valid.");
                                 } else {
                                     JOptionPane.showMessageDialog(pnlMain, "The inputted salary is not valid.");
@@ -74,7 +92,6 @@ public class App extends JFrame {
                         }
                     }
                 }
-
                 String name = tfName.getText();
                 int age = Integer.parseInt(tfAge.getText());
                 String occ = "Job";
@@ -223,6 +240,16 @@ public class App extends JFrame {
         tfMonths.setText("");
         tfSalary.setText("");
         tfLoad.setText("");
+    }
+
+    public boolean checkName(String s){
+        int len = s.length();
+        for(int x = 0; x < len; x++){
+            if(!Character.isLetter(s.charAt(x))){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
