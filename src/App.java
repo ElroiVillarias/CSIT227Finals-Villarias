@@ -72,12 +72,12 @@ public class App extends JFrame{
                             int months = Integer.parseInt(tfMonths.getText());
                             double salary = Double.parseDouble(tfSalary.getText());
                             occ = "Clerk";
-                            persons.add(new Person.Employee.Clerk(name, age, months, salary));
+                            persons.add(new Employee.Clerk(name, age, months, salary));
                         } else if(rb.equals(rbManager)) {
                             int months = Integer.parseInt(tfMonths.getText());
                             double salary = Double.parseDouble(tfSalary.getText());
                             occ = "Manager";
-                            persons.add(new Person.Employee.Manager(name, age, months, salary));
+                            persons.add(new Employee.Manager(name, age, months, salary));
                         }
                     }
                 }
@@ -102,7 +102,26 @@ public class App extends JFrame{
         btnLoad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try{
+                    Integer.parseInt(tfLoad.getText());
+                }catch (Exception x){
+                    JOptionPane.showMessageDialog(pnlMain, "The Load input is not valid.");
+                    clear();
+                }
+                int load = Integer.parseInt(tfLoad.getText());
+                int cnt = 1;
+                for(Person p : persons){
+                    if(load == cnt){
+                        tfName.setText(p.name);
+                        tfAge.setText(String.valueOf(p.age));
+                        if(p instanceof Employee){
+                            tfMonths.setText(String.valueOf(((Employee) p).months_worked));
+                            tfSalary.setText(String.valueOf(((Employee) p).salary));
+                        }
+                        break;
+                    }
+                    cnt++;
+                }
             }
         });
 
