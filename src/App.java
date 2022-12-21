@@ -40,6 +40,25 @@ public class App extends JFrame{
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int cnt = 0;
+                try{
+                    Integer.parseInt(tfAge.getText());
+                    cnt++;
+                    Integer.parseInt(tfMonths.getText());
+                    cnt++;
+                    Double.parseDouble(tfSalary.getText());
+                } catch (Exception x) {
+                    if(cnt == 0){
+                        JOptionPane.showMessageDialog(pnlMain, "The inputted age is not valid.");
+                    }else if(cnt == 1) {
+                        JOptionPane.showMessageDialog(pnlMain, "The inputted months of work is not valid.");
+                    }else{
+                        JOptionPane.showMessageDialog(pnlMain, "The inputted salary is not valid.");
+                    }
+                    clear();
+                }
+
+
                 String name = tfName.getText();
                 int age = Integer.parseInt(tfAge.getText());
                 String occ = "Job";
