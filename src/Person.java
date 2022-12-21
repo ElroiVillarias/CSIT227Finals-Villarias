@@ -50,11 +50,6 @@ public abstract class Person {
         public Customer(String name, int age) {
             super(name, age);
         }
-
-        @Override
-        public String toString() {
-            return "How may I help you?";
-        }
     }
 
 }
