@@ -134,14 +134,22 @@ public class App extends JFrame {
         btnLoad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int cnt = 0;
+                int check = Integer.parseInt(tfLoad.getText());
                 try {
                     Integer.parseInt(tfLoad.getText());
+                    for (Person p : persons) {
+                        cnt++;
+                    }
+                    if(cnt < check){
+                        throw new Exception();
+                    }
                 } catch (Exception x) {
                     JOptionPane.showMessageDialog(pnlMain, "The Load input is not valid.");
                     clear();
                 }
                 int load = Integer.parseInt(tfLoad.getText());
-                int cnt = 1;
+                cnt = 1;
                 DecimalFormat df = new DecimalFormat("0.00");
                 double reset;
                 for (Person p : persons) {
